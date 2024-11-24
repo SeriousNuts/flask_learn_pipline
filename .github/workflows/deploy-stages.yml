@@ -40,4 +40,5 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
       - name: deploy to server
         run: |
-          docker-compose pull
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest
+          docker run --name ${{ vars.PROJECT_NAME }}:latest -p 5000:5000
