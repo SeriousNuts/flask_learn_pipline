@@ -22,7 +22,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-             docker build . --tag ${{ github.DOCKER_HUB_URL }}/${{ github.repository_owner }}/${{ github.PROJECT_NAME }}:latest
+             docker build . --tag ${{ github.PROJECT_NAME }}:latest
              docker push ${{ github.DOCKER_HUB_URL }}/${{ github.repository_owner }}/${{ github.PROJECT_NAME }}:latest
 
   deploy:
