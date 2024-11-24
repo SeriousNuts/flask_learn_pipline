@@ -41,5 +41,5 @@ jobs:
       - name: deploy to server
         run: |
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASS }}
-          docker pull ${{ vars.DOCKER_HUB_URL }}/$${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest        
+          docker pull ${{ vars.DOCKER_HUB_URL }}/${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest        
           docker run -d -p 5000:5000  --name ${{ vars.PROJECT_NAME }} ${{ vars.PROJECT_NAME }}:latest
