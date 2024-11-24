@@ -13,7 +13,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'  # Укажите нужную версию Python
+          python-version: '3.11'  # Укажите нужную версию Python
 
       - name: Install dependencies
         run: |
@@ -24,7 +24,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PUB_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ${{ secrets.WORK_DIR }}
