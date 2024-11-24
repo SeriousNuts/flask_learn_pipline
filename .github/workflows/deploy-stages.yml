@@ -41,5 +41,8 @@ jobs:
       - name: deploy to server
         run: |
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASS }}
-          docker pull seriousnuts/pipline_learn:latest        
+          echo "login"
+          docker pull seriousnuts/pipline_learn:latest 
+          echo "pull"
           docker run -d -p 5000:5000  --name ${{ vars.PROJECT_NAME }} ${{ vars.PROJECT_NAME }}:latest
+          echo "run"
