@@ -14,4 +14,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Указываем команду для запуска приложения
-CMD ["python", "app.py"]
+RUN chmod +x app.py
+
+CMD ["python3", "app.py"]
