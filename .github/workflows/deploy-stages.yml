@@ -7,6 +7,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Get build number
+        id: vars
+        run: echo ${{ github.ref_name }}-${{ github.run_number }}
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -20,14 +24,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASS }}
 
-      - name: Get build number
-        id: vars
-        run: echo "BUILD_NUMBER=$(echo $GITHUB_RUN_NUMBER)" >> $GITHUB_ENV
-
       - name: Build and push Docker image
         run: |
-             docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest
-             docker push ${{ vars.DOCKER_HUB_URL }}/${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest
+             docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}
+             docker push ${{ vars.DOCKER_HUB_URL }}/${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,12 +45,12 @@ jobs:
       - name: pull image from docker hub
         run: |
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASS }}
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}
 
       - name: stop all containers
         run: |
-          docker stop ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest || true
-          docker rm ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest || true
+          docker stop ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }} || true
+          docker rm ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }} || true
       - name: run new container
         run: |
-          docker run -d -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:latest
+          docker run -d -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}
