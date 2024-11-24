@@ -30,7 +30,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout code again
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
       - name: connect by ssh
         uses: appleboy/ssh-action@master
         with:
