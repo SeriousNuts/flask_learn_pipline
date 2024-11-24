@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем весь код приложения
-COPY . COPY . /usr/src/app/
+COPY . /usr/src/app/
 ENV FLASK_APP=app.py
 EXPOSE 5000
 # Указываем команду для запуска приложения
