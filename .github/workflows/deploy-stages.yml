@@ -42,4 +42,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          script: bash deploy.sh
+          script: ls
+      - name: where am i
+        run: |
+              pwd
