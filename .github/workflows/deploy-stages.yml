@@ -35,14 +35,14 @@ jobs:
     steps:
       - name: Checkout code again
         uses: actions/checkout@v4
-      - name: connect by ssh
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: ls ./flask_learn_pipline
-      - name: where am i
+      - name: install ssh keys
         run: |
-              ./flask_learn_pipline/deploy.sh
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: connect by ssh
+      - name: Build and push Docker image
+        run: |
+              ls
+              pwd
+              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST } 'bash -s' < deploy.sh
