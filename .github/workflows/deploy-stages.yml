@@ -44,4 +44,4 @@ jobs:
         run: |
               ls
               pwd
-              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST } 'bash -s' < deploy.sh
+              ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'bash -s' < deploy.sh
