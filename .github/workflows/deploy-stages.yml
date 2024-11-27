@@ -44,13 +44,12 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
       - name: pull image from docker hub
         run: |
-          hostname -I
-          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASS }}
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASS }}"
+           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}"
       - name: stop all containers
         run: |
-          docker stop ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }} || true
-          docker rm ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }} || true
+           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker stop ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }} || true"
+           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker rm ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }} || true"
       - name: run new container
         run: |
-          docker run -d -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}
+           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run -d -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}"
