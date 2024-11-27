@@ -53,7 +53,9 @@ jobs:
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}"
       - name: stop all containers
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker stop $(docker ps -aq)"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "containers='docker ps -aq'"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker stop $containers"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker system prune"
       - name: run new container
         run: |
            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run -d -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.PROJECT_NAME }}:${{ github.ref_name }}-${{ github.run_number }}"
