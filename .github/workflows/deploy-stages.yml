@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          script: ls
+          script: ls ./flask_learn_pipline
       - name: where am i
         run: |
-              pwd
+              ./flask_learn_pipline/deploy.sh
