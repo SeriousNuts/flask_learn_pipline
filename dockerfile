@@ -6,6 +6,8 @@ RUN mkdir -p /usr/src/app/
 WORKDIR /usr/src/app/
 # Копируем файлы зависимостей
 COPY requirements.txt .
+# Копируем файлы деплоя
+COPY deploy.sh .
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь код приложения
